@@ -21,9 +21,15 @@ class SpaceShip {
   
   void moveRight(int distance) {
      int dist = xPos + distance;
-     println(dist);
      xPos = xPos + distance < 430 ? xPos + distance : 430;
      update();
   }
+  
+  int getX() {
+   return xPos; 
+  }
     
+  int getY() {
+   return yPos; 
+  }
 }
