@@ -51,14 +51,6 @@ void startBackground()
   }
 }
 
-void generateAsteroid() {
-  int location =  int(random(400));
-  Asteroid asteroid = new Asteroid(location);
-  asteroid.update();
-  asteroidHasBeenSeen = true;
-  
-}
-
 void keyPressed() {
    if (key == CODED) {
     if (keyCode == LEFT) {
