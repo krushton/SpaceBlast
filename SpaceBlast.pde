@@ -1,3 +1,6 @@
+import processing.serial.*;
+
+Serial port; // The serial port object
 
 PImage background, backgroundCopy;
 int screenSpeed=3;
@@ -7,10 +10,15 @@ boolean scrollBackground = true;
 SpaceShip s;
 Obstacle[] o;
 Game game;
-
-
 void setup()
 {
+  // In case you want to see the list of available ports
+  //println(Serial.list());
+  
+  // Using the first available port (might be different on your computer)
+  port = new Serial(this, Serial.list()[0], 9600); 
+  port.bufferUntil('\n');
+
   size(PAGE_WIDTH, PAGE_HEIGHT);
   background(255);
   background = loadImage("background.gif");
@@ -61,7 +69,7 @@ void stopBackground() {
 void keyPressed() {
    if (key == CODED) {
     if (keyCode == LEFT) {
-      s.moveLeft(10);
+      s.moveLeft(90);
     } else if (keyCode == RIGHT) {
       s.moveRight(10);
     } 
@@ -74,4 +82,36 @@ void keyPressed() {
    }
 }
 
+void serialEvent(Serial p) {
+
+   // read the serial buffer:
+  String myString = port.readStringUntil('\n');
+  if (myString != null) {
+    println(myString);
+  }
+  
+  myString = trim(myString);
+
+    // split the string at the commas
+    // and convert the sections into integers:
+    int sensors[] = int(split(myString, ','));
+    // print out the values you got:
+    for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
+      //print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t"); 
+    }
+    // add a linefeed after all the sensor values are printed:
+    //println();
+  
+  // sent values first three from accelleromter rotation about x, y and z axis
+  // make sure there are three values before you use them:
+ int xAxisRot = sensors[0];
+ if (sensors.length > 1) {
+     if(xAxisRot > 15){
+       s.moveRight(xAxisRot/2);
+     } 
+     else if(xAxisRot < -15){
+       s.moveRight(xAxisRot/2);
+     }
+ }
+}
 
