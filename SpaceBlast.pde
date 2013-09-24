@@ -69,7 +69,7 @@ void stopBackground() {
 void keyPressed() {
    if (key == CODED) {
     if (keyCode == LEFT) {
-      s.moveLeft(90);
+      s.moveLeft(10);
     } else if (keyCode == RIGHT) {
       s.moveRight(10);
     } 
@@ -105,12 +105,23 @@ void serialEvent(Serial p) {
   // sent values first three from accelleromter rotation about x, y and z axis
   // make sure there are three values before you use them:
  int xAxisRot = sensors[0];
+ int lFireRate = sensors[4];
+ int rFireRate = sensors[5];
+ 
  if (sensors.length > 1) {
      if(xAxisRot > 15){
        s.moveRight(xAxisRot/2);
      } 
      else if(xAxisRot < -15){
        s.moveRight(xAxisRot/2);
+     }
+     
+     if(lFireRate > 0){
+        s.fireLeft();
+     }
+     
+     if(rFireRate > 0){
+        s.fireRight();
      }
  }
 }
