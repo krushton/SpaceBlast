@@ -13,7 +13,7 @@ Game game;
 void setup()
 {
   // In case you want to see the list of available ports
-  //println(Serial.list());
+  println(Serial.list());
   
   // Using the first available port (might be different on your computer)
   port = new Serial(this, Serial.list()[0], 9600); 
@@ -75,9 +75,9 @@ void keyPressed() {
     } 
    } else {
      if (key == 'a') {
-         s.fireLeft();
+         s.fireLeft(5.0);
      } else if (key == 's') {
-         s.fireRight();
+         s.fireRight(5.0);
      } 
    }
 }
@@ -87,7 +87,7 @@ void serialEvent(Serial p) {
    // read the serial buffer:
   String myString = port.readStringUntil('\n');
   if (myString != null) {
-    println(myString);
+    //println(myString);
   }
   
   myString = trim(myString);
@@ -96,17 +96,17 @@ void serialEvent(Serial p) {
     // and convert the sections into integers:
     int sensors[] = int(split(myString, ','));
     // print out the values you got:
-    for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
+    //for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
       //print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t"); 
-    }
+    //}
     // add a linefeed after all the sensor values are printed:
     //println();
   
   // sent values first three from accelleromter rotation about x, y and z axis
   // make sure there are three values before you use them:
  int xAxisRot = sensors[0];
- int lFireRate = sensors[4];
- int rFireRate = sensors[5];
+ float lFireRate = sensors[3];
+ float rFireRate = sensors[4];
  
  if (sensors.length > 1) {
      if(xAxisRot > 15){
@@ -116,12 +116,13 @@ void serialEvent(Serial p) {
        s.moveRight(xAxisRot/2);
      }
      
+     println("Left Fire: " + lFireRate + ", Right Fire: " + rFireRate);     
      if(lFireRate > 0){
-        s.fireLeft();
+        s.fireLeft(lFireRate);
      }
      
      if(rFireRate > 0){
-        s.fireRight();
+        s.fireRight(rFireRate);
      }
  }
 }

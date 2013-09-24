@@ -41,11 +41,13 @@ class SpaceShip {
      return bullets; 
   }
   
-  void fireLeft() {
+  void fireLeft(float blastSpeed) {
+    blasterLeft.setSpeed(blastSpeed);
     blasterLeft.fireBullet();
   }
   
-  void fireRight() {
+  void fireRight(float blastSpeed) {
+    blasterRight.setSpeed(blastSpeed);
     blasterRight.fireBullet();
   }
   

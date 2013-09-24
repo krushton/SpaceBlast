@@ -26,8 +26,6 @@ double z;
 
 void setup(){
   Serial.begin(9600); 
-  digitalWrite(lFirePin, HIGH);
-  digitalWrite(rFirePin, HIGH);
 }
 
 void loop(){
@@ -36,8 +34,8 @@ void loop(){
   int xRead = analogRead(xPin);
   int yRead = analogRead(yPin);
   int zRead = analogRead(zPin);
-  int lFireRate = analogRead(lFirePin);
-  int rFireRate = analogRead(rFirePin);
+  int lFireRead = analogRead(lFirePin);
+  int rFireRead = analogRead(rFirePin);
   
 
   //convert read values to degrees -90 to 90 - Needed for atan2
@@ -45,8 +43,8 @@ void loop(){
   int yAng = map(yRead, minVal, maxVal, -90, 90);
   int zAng = map(zRead, minVal, maxVal, -90, 90);
 
-  lFireRate = (1024 - lFireRate)/20;
-  rFireRate = (1024 - rFireRate)/20;
+  int lFireRate = (1024 - lFireRead)/100;
+  int rFireRate = (1024 - rFireRead)/100;
   
   //Caculate 360deg values like so: atan2(-yAng, -zAng)
   //atan2 outputs the value of -π to π (radians)
