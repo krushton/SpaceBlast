@@ -11,6 +11,7 @@ boolean useSerial = false;
 SpaceShip s;
 Obstacle[] o;
 Game game;
+
 void setup()
 {
   // In case you want to see the list of available ports
@@ -18,13 +19,11 @@ void setup()
   //Serial should be optional to let the game be played with key commands
   if (Serial.list().length > 0) {
     useSerial = true;
-
     // Using the first available port (might be different on your computer)
     port = new Serial(this, Serial.list()[0], 9600); 
     port.bufferUntil('\n');
-  
   }
-
+  
   size(PAGE_WIDTH, PAGE_HEIGHT);
   background(255);
   background = loadImage("background.gif");
@@ -73,6 +72,11 @@ void stopBackground() {
 }
 
 void keyPressed() {
+  
+   if (!game.isRunning()) {
+     game.startGame();
+   }
+   
    if (key == CODED) {
     if (keyCode == LEFT) {
       s.moveLeft(10);
@@ -81,9 +85,9 @@ void keyPressed() {
     } 
    } else {
      if (key == 'a') {
-         s.fireLeft(5.0);
+         s.fireLeft();
      } else if (key == 's') {
-         s.fireRight(5.0);
+         s.fireRight();
      } 
    }
 }
@@ -93,48 +97,31 @@ void serialEvent(Serial p) {
    // read the serial buffer:
   String myString = port.readStringUntil('\n');
   if (myString != null) {
-    //println(myString);
+    println(myString);
   }
   
   myString = trim(myString);
 
-  try {
-      // split the string at the commas
-      // and convert the sections into integers:
-      int sensors[] = int(split(myString, ','));
-      // print out the values you got:
-      //for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
-        //print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t"); 
-      //}
-      // add a linefeed after all the sensor values are printed:
-      //println();
-      
-      // sent values first three from accelleromter rotation about x, y and z axis
-      // make sure there are three values before you use them:
-     int xAxisRot = sensors[0];
-     float lFireRate = sensors[3];
-     float rFireRate = sensors[4];
-     
-     if (sensors.length > 1) {
-         if(xAxisRot > 15){
-           s.moveRight(xAxisRot/2);
-         } 
-         else if(xAxisRot < -15){
-           s.moveRight(xAxisRot/2);
-         }
-         
-         //println("Left Fire: " + lFireRate + ", Right Fire: " + rFireRate);     
-         if(lFireRate > 0){
-            s.fireLeft(lFireRate);
-         }
-         
-         if(rFireRate > 0){
-            s.fireRight(rFireRate);
-         }
+    // split the string at the commas
+    // and convert the sections into integers:
+    int sensors[] = int(split(myString, ','));
+    // print out the values you got:
+    for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
+      //print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t"); 
+    }
+    // add a linefeed after all the sensor values are printed:
+    //println();
+  
+  // sent values first three from accelleromter rotation about x, y and z axis
+  // make sure there are three values before you use them:
+ int xAxisRot = sensors[0];
+ if (sensors.length > 1) {
+     if(xAxisRot > 15){
+       s.moveRight(xAxisRot/2);
+     } 
+     else if(xAxisRot < -15){
+       s.moveRight(xAxisRot/2);
      }
-  }
-  catch(Exception e){
-    println("Initialization exception");
-  }
+ }
 }
 
