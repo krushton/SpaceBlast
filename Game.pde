@@ -3,11 +3,15 @@ public class Game  {
     private Obstacle[] obstacles;
     private ArrayList<Bullet> bullets;
     private SpaceShip ship;
+    private ScoreBoard scoreDisplay;
+    private int currentScore = 0;
+    private int currentLives = 3;
     
     public Game(Obstacle[] obstacles, ArrayList<Bullet> bullets, SpaceShip ship) {
        this.obstacles = obstacles;
        this.bullets = bullets;
        this.ship = ship;
+       scoreDisplay = new ScoreBoard(currentScore, currentLives, this);
     }
 
     private void checkObstacles() {
@@ -29,6 +33,8 @@ public class Game  {
           {
             //there was a collision. reset the obstacle.
             o.reset();
+            //todo: make the spaceship explode and be replaced
+            currentLives -= 1;
           }
 
           for (int j = 0; j < bullets.size(); j++) {
@@ -38,8 +44,11 @@ public class Game  {
              if (bDist < 40) {
                o.explode();
                b.remove();
+               currentScore += 10;
              }
           }
         }
+        scoreDisplay.updateScore(currentScore);
+        scoreDisplay.updateLives(currentLives);
     }
 }

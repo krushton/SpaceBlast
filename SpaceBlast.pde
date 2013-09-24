@@ -7,6 +7,7 @@ int screenSpeed=3;
 int backX=0,backY=0,backX2=0,backY2=500;
 int PAGE_WIDTH = 500, PAGE_HEIGHT = 500;
 boolean scrollBackground = true;
+boolean useSerial = false;
 SpaceShip s;
 Obstacle[] o;
 Game game;
@@ -14,11 +15,14 @@ void setup()
 {
   // In case you want to see the list of available ports
   //println(Serial.list());
+  //Serial should be optional to let the game be played with key commands
+  if (Serial.list().length > 0) {
+    useSerial = true;
+    // Using the first available port (might be different on your computer)
+    port = new Serial(this, Serial.list()[0], 9600); 
+    port.bufferUntil('\n');
+  }
   
-  // Using the first available port (might be different on your computer)
-  port = new Serial(this, Serial.list()[0], 9600); 
-  port.bufferUntil('\n');
-
   size(PAGE_WIDTH, PAGE_HEIGHT);
   background(255);
   background = loadImage("background.gif");
@@ -69,7 +73,7 @@ void stopBackground() {
 void keyPressed() {
    if (key == CODED) {
     if (keyCode == LEFT) {
-      s.moveLeft(90);
+      s.moveLeft(10);
     } else if (keyCode == RIGHT) {
       s.moveRight(10);
     } 
