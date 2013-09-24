@@ -1,4 +1,4 @@
-class Obstacle
+public class Obstacle
 {
   boolean dropTrue;
   float obx,oby;
@@ -8,41 +8,51 @@ class Obstacle
   float pSpeed=3.0;
   String[] images = {"a1.png", "a2.png", "a3.png", "a4.png", "a5.png"};
 
-  Obstacle()
-  {
-    obx = random(10,480);
-    oby = random(-400,-300);
+  Obstacle() {
+    positionObstacle();
     int index = int(random(5));
     obstacle = loadImage(images[index]);
     x = s.getX();
     y = s.getY();
+    registerDraw(this);
+  }
+  
+  void positionObstacle() {
+    obx = random(10,480);
+    oby = random(-400,-300); 
   }
 
-  void obstacleChange() {
+  void changeObstacle() {
     int index = int(random(5));
     obstacle = loadImage(images[index]);
   }
   
-  void obstacleFall()
+  void draw()
   {
     oby += 4;
     image(obstacle,obx,oby);
+    
+    x = s.getX();
+    y = s.getY();
 
-    if(oby > 500)
+    float dist1 = dist(obx,oby,x,y);
+    float dist2 =  dist(obx,oby,x+s.WIDTH,y);
+    
+    if(dist1 < 40 || dist2 < 5 )
     {
-      obx = random(180,620);
-      oby = random(-500,-300);
-      obstacleChange();
-    }
-    println(obx + " " + oby + " " + x + " " + y);
-   println( dist(obx,oby,x,y)+"");
-    if(dist(obx,oby,x,y)<20)
-    {
-      println("collision!");
-      obx = random(20,480);
-      oby = random(-500,-300);
+      //collision with ship
+      positionObstacle();  
+      changeObstacle();
      
     }
+    
+    if(oby > 500)
+    {
+      positionObstacle();
+      changeObstacle();
+    }
+
+    
     
   }
 }
