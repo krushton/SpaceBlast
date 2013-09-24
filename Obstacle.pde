@@ -47,7 +47,6 @@ public class Obstacle
       }
       
       if ( millis() < (100 + explosionStart)) {
-         println(explosionStart);
          drawExplosion();
       } else {
          hideExplosion(); 

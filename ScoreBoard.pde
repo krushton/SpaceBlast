@@ -46,7 +46,7 @@ public class ScoreBoard {
     }
     
     private void drawStartScreen() {
-       fill(0);
+       fill(40, 38, 38);
        rect(0,0,500,500);
        textSize(60);
        fill(255,170,0);
@@ -58,7 +58,7 @@ public class ScoreBoard {
     
     private void drawFinishScreen() {
       
-       fill(0);
+       fill(40, 38, 38);
        rect(0, 0,500, 500);
        textSize(60);
        fill(255,170,0);

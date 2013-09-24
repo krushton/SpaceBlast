@@ -35,6 +35,7 @@ public class Game  {
             {
               //there was a collision. reset the obstacle.
               o.reset();
+              ship.explode();
               //todo: make the spaceship explode and be replaced
               currentLives -= 1;
               if (currentLives == 0) {

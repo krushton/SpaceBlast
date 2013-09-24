@@ -8,7 +8,11 @@ class SpaceShip {
   Blaster blasterLeft;
   Blaster blasterRight;
   private ArrayList<Bullet> bullets;
-  
+  private int explosionStart = 0;
+  private float explosionX;
+  private float explosionY;
+  private PImage explosion;
+    
   SpaceShip(int x, int y) {
     xPos = x;
     yPos = y;
@@ -16,10 +20,17 @@ class SpaceShip {
     blasterLeft = new Blaster(0, this);
     blasterRight = new Blaster(this.WIDTH-10, this);
     bullets = new ArrayList<Bullet>();
+    explosion = loadImage("exploded-ship.png");
   }
   
   void update() {
     image(ship, xPos, yPos);
+    if ( millis() < (400 + explosionStart)) {
+         drawExplosion();
+      } else {
+         hideExplosion(); 
+     }
+
   }
   
   void moveLeft(int distance) {
@@ -41,14 +52,29 @@ class SpaceShip {
      return bullets; 
   }
   
-  void fireLeft(float blastSpeed) {
-    blasterLeft.setSpeed(blastSpeed);
+  void fireLeft() {
     blasterLeft.fireBullet();
   }
   
-  void fireRight(float blastSpeed) {
-    blasterRight.setSpeed(blastSpeed);
+  void fireRight() {
     blasterRight.fireBullet();
+  }
+  
+  private void drawExplosion() {
+     fill(40, 38, 38);
+     noStroke();
+     rect(xPos, yPos, WIDTH, HEIGHT);
+     image(explosion, explosionX, explosionY);
+  }
+  
+  private void hideExplosion() {
+     image(explosion, -1000, -1000);
+  }
+ 
+  public void explode() {
+    explosionStart = millis();
+    explosionX = xPos;
+    explosionY = yPos;
   }
   
   int getX() {
@@ -62,4 +88,5 @@ class SpaceShip {
   int getWidth() {
    return WIDTH;
   }
+  
 }
