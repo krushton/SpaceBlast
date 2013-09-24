@@ -92,38 +92,43 @@ void serialEvent(Serial p) {
   
   myString = trim(myString);
 
-    // split the string at the commas
-    // and convert the sections into integers:
-    int sensors[] = int(split(myString, ','));
-    // print out the values you got:
-    //for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
-      //print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t"); 
-    //}
-    // add a linefeed after all the sensor values are printed:
-    //println();
-  
-  // sent values first three from accelleromter rotation about x, y and z axis
-  // make sure there are three values before you use them:
- int xAxisRot = sensors[0];
- float lFireRate = sensors[3];
- float rFireRate = sensors[4];
- 
- if (sensors.length > 1) {
-     if(xAxisRot > 15){
-       s.moveRight(xAxisRot/2);
-     } 
-     else if(xAxisRot < -15){
-       s.moveRight(xAxisRot/2);
-     }
+  try {
+      // split the string at the commas
+      // and convert the sections into integers:
+      int sensors[] = int(split(myString, ','));
+      // print out the values you got:
+      //for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
+        //print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t"); 
+      //}
+      // add a linefeed after all the sensor values are printed:
+      //println();
+      
+      // sent values first three from accelleromter rotation about x, y and z axis
+      // make sure there are three values before you use them:
+     int xAxisRot = sensors[0];
+     float lFireRate = sensors[3];
+     float rFireRate = sensors[4];
      
-     println("Left Fire: " + lFireRate + ", Right Fire: " + rFireRate);     
-     if(lFireRate > 0){
-        s.fireLeft(lFireRate);
+     if (sensors.length > 1) {
+         if(xAxisRot > 15){
+           s.moveRight(xAxisRot/2);
+         } 
+         else if(xAxisRot < -15){
+           s.moveRight(xAxisRot/2);
+         }
+         
+         //println("Left Fire: " + lFireRate + ", Right Fire: " + rFireRate);     
+         if(lFireRate > 0){
+            s.fireLeft(lFireRate);
+         }
+         
+         if(rFireRate > 0){
+            s.fireRight(rFireRate);
+         }
      }
-     
-     if(rFireRate > 0){
-        s.fireRight(rFireRate);
-     }
- }
+  }
+  catch(Exception e){
+    println("Initialization exception");
+  }
 }
 

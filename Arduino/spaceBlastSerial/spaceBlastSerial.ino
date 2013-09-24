@@ -6,9 +6,9 @@
 
 
 //Analog read pins
-const int xPin = 0;
+const int xPin = 2;
 const int yPin = 1;
-const int zPin = 2;
+const int zPin = 0;
 const int lFirePin = 3;
 const int rFirePin = 4;
 
