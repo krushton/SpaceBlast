@@ -1,59 +1,78 @@
 public class Obstacle
 {
-  boolean dropTrue;
-  float obx,oby;
-  float obSpeed=15;
-  PImage obstacle;
-  float x,y;
-  float pSpeed=3.0;
+  private float obx,oby;
+  private float explosionX = -1000.0, explosionY = -1000.0;
+  private int explosionStart = 0;
+
+  PImage obstacle, explosion;
   String[] images = {"a1.png", "a2.png", "a3.png", "a4.png", "a5.png"};
 
-  Obstacle() {
+  public Obstacle() {
     positionObstacle();
     int index = int(random(5));
     obstacle = loadImage(images[index]);
-    x = s.getX();
-    y = s.getY();
+    explosion = loadImage("explosion.png");
     registerDraw(this);
   }
+ 
+  public void reset() {
+    positionObstacle();
+    changeObstacle();
+  }
   
-  void positionObstacle() {
-    obx = random(10,480);
-    oby = random(-400,-300); 
+  public void explode() {
+    explosionStart = millis();
+    explosionX = obx;
+    explosionY = oby;
+    reset();
   }
-
-  void changeObstacle() {
-    int index = int(random(5));
-    obstacle = loadImage(images[index]);
+ 
+  public float getX() {
+    return obx;
   }
+ 
+  public float getY() {
+    return oby;
+  }   
   
   void draw()
   {
-    oby += 4;
-    image(obstacle,obx,oby);
-    
-    x = s.getX();
-    y = s.getY();
+      oby += 4;
+      image(obstacle,obx,oby);
+      
+      if(oby > 500)
+      {
+        positionObstacle();
+        changeObstacle();
+      }
+      
+      if ( millis() < (100 + explosionStart)) {
+         println(explosionStart);
+         drawExplosion();
+      } else {
+         hideExplosion(); 
+      }
 
-    float dist1 = dist(obx,oby,x,y);
-    float dist2 =  dist(obx,oby,x+s.WIDTH,y);
-    
-    if(dist1 < 40 || dist2 < 5 )
-    {
-      //collision with ship
-      positionObstacle();  
-      changeObstacle();
-     
-    }
-    
-    if(oby > 500)
-    {
-      positionObstacle();
-      changeObstacle();
-    }
+ }
+ 
+ private void drawExplosion() {
+   image(explosion, explosionX, explosionY);
+ }
 
-    
-    
-  }
+ private void hideExplosion() {
+   image(explosion, -1000, -1000);
+ }
+ 
+ private void positionObstacle() {
+  obx = random(10,480);
+  oby = random(-400,-300); 
+ }
+
+ private void changeObstacle() {
+  int index = int(random(5));
+  obstacle = loadImage(images[index]);
+ }
+  
+ 
 }
 

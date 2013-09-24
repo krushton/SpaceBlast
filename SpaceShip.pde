@@ -7,6 +7,7 @@ class SpaceShip {
   int HEIGHT = 86;
   Blaster blasterLeft;
   Blaster blasterRight;
+  private ArrayList<Bullet> bullets;
   
   SpaceShip(int x, int y) {
     xPos = x;
@@ -14,6 +15,7 @@ class SpaceShip {
     ship = loadImage("ship.png");
     blasterLeft = new Blaster(0, this);
     blasterRight = new Blaster(this.WIDTH-10, this);
+    bullets = new ArrayList<Bullet>();
   }
   
   void update() {
@@ -31,6 +33,14 @@ class SpaceShip {
      update();
   }
   
+  void addBullet(Bullet b) {
+     bullets.add(b); 
+  }
+  
+  public ArrayList<Bullet> getBullets() {
+     return bullets; 
+  }
+  
   void fireLeft() {
     blasterLeft.fireBullet();
   }
@@ -45,5 +55,9 @@ class SpaceShip {
     
   int getY() {
    return yPos; 
+  }
+  
+  int getWidth() {
+   return WIDTH;
   }
 }

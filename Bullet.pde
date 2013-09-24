@@ -1,9 +1,9 @@
 public class Bullet {
-    float xPos;
-    float yPos;
-    float fireRate;
-    PImage bullet;
-    Blaster blaster;
+    private float xPos;
+    private float yPos;
+    private float fireRate;
+    private PImage bullet;
+    private Blaster blaster;
     
     Bullet(float x, float y, float rate, Blaster b) {
       xPos = x;
@@ -23,8 +23,16 @@ public class Bullet {
       }
     }
   
-    void remove() {
+    public void remove() {
        unregisterDraw(this);
-       blaster.bullets.remove(this);
+       blaster.ship.bullets.remove(this);
     }
+    
+    public float getX() {
+     return xPos; 
+    }
+    
+    public float getY() {
+     return yPos;
+    } 
 }

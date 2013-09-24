@@ -1,22 +1,20 @@
 class Blaster {
-    float offset;
-    float bulletSpeed;
-    float fireRate;
-    boolean firing = false;
-    ArrayList<Bullet> bullets;
-    SpaceShip ship;
+    private float offset;
+    private float bulletSpeed;
+    private float fireRate;
+    private boolean firing = false;
+    private SpaceShip ship;
     
-    Blaster(float off, SpaceShip ss) {
+    public Blaster(float off, SpaceShip ss) {
       offset = off;
       ship = ss;
-      bulletSpeed = 1.0;
+      bulletSpeed = 2.0;
       fireRate = 1.0;
-      bullets = new ArrayList<Bullet>();
     }
     
     void fireBullet() {
         Bullet b = new Bullet(ship.getX() + offset, ship.getY(), bulletSpeed, this);
-        bullets.add(b);
+        ship.addBullet(b);
     }
    
 }

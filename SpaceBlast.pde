@@ -6,7 +6,7 @@ int PAGE_WIDTH = 500, PAGE_HEIGHT = 500;
 boolean scrollBackground = true;
 SpaceShip s;
 Obstacle[] o;
-
+Game game;
 
 
 void setup()
@@ -19,14 +19,16 @@ void setup()
   o = new Obstacle[6];
   for(int i=0; i<6; i++)
   {
-    o[i] = new Obstacle(this);
+    o[i] = new Obstacle();
   }
+  game = new Game(o, s.getBullets(), s);
 }
 
 void draw()
 {
   startBackground();
   s.update();
+  game.checkObstacles();
 }
 
 void startBackground()
