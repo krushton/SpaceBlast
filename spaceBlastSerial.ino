@@ -9,6 +9,8 @@
 const int xPin = 0;
 const int yPin = 1;
 const int zPin = 2;
+const int lFirePin = 3;
+const int rFirePin = 4;
 
 //The minimum and maximum values that came from
 //the accelerometer while standing still
@@ -22,11 +24,9 @@ double x;
 double y;
 double z;
 
-
 void setup(){
   Serial.begin(9600); 
 }
-
 
 void loop(){
 
@@ -34,6 +34,9 @@ void loop(){
   int xRead = analogRead(xPin);
   int yRead = analogRead(yPin);
   int zRead = analogRead(zPin);
+  int lFireRate = angalogRead(lFirePin);
+  int rFireRate = analogRead(rFirePin);
+  
 
   //convert read values to degrees -90 to 90 - Needed for atan2
   int xAng = map(xRead, minVal, maxVal, -90, 90);
@@ -52,7 +55,8 @@ void loop(){
   Serial.print(",");
   Serial.print(yAng);
   Serial.print(",");
-  Serial.println(zAng);
+  Serial.print(zAng);
+  Serial.print(
 
   delay(100);//just here to slow down the serial output - Easier to read
 }
