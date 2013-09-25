@@ -60,6 +60,16 @@ class SpaceShip {
     blasterRight.fireBullet();
   }
   
+  void fireLeft(float input) {
+    blasterLeft.setSpeed(input);
+    blasterLeft.fireBullet();
+  }
+  
+  void fireRight(float input) {
+    blasterRight.setSpeed(input);
+    blasterRight.fireBullet();
+  }
+  
   private void drawExplosion() {
      fill(40, 38, 38);
      noStroke();

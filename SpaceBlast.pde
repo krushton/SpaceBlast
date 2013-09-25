@@ -94,6 +94,7 @@ void keyPressed() {
 
 void serialEvent(Serial p) {
 
+   try {
    // read the serial buffer:
   String myString = port.readStringUntil('\n');
   if (myString != null) {
@@ -114,14 +115,28 @@ void serialEvent(Serial p) {
   
   // sent values first three from accelleromter rotation about x, y and z axis
   // make sure there are three values before you use them:
- int xAxisRot = sensors[0];
- if (sensors.length > 1) {
-     if(xAxisRot > 15){
-       s.moveRight(xAxisRot/2);
-     } 
-     else if(xAxisRot < -15){
-       s.moveRight(xAxisRot/2);
-     }
- }
+   int leftFireRate = sensors[3];
+   int rightFireRate = sensors[4];
+   int xAxisRot = sensors[0];
+   
+   if (sensors.length > 1) {
+       if(xAxisRot > 15){
+         s.moveRight(xAxisRot/2);
+       } 
+       else if(xAxisRot < -15){
+         s.moveRight(xAxisRot/2);
+       }
+       
+       if (leftFireRate > 1) {
+         s.fireLeft(leftFireRate); 
+       }
+       
+       if (rightFireRate > 1) {
+         s.fireRight(rightFireRate); 
+       }
+   }
+   } catch (Exception ex) {
+     println("error: " + ex.toString());
+   }
 }
 
