@@ -73,6 +73,7 @@ void stopBackground() {
 
 void keyPressed() {
   
+   
    if (!game.isRunning()) {
      game.startGame();
    }
@@ -107,9 +108,9 @@ void serialEvent(Serial p) {
     // and convert the sections into integers:
     int sensors[] = int(split(myString, ','));
     // print out the values you got:
-    for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
+    //for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
       //print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t"); 
-    }
+    //}
     // add a linefeed after all the sensor values are printed:
     //println();
   
@@ -120,11 +121,15 @@ void serialEvent(Serial p) {
    int xAxisRot = sensors[0];
    
    if (sensors.length > 1) {
+        if (!game.isRunning()) {
+          game.startGame();
+        }
+     
        if(xAxisRot > 15){
-         s.moveRight(xAxisRot/2);
+         s.moveLeft(xAxisRot/2);
        } 
        else if(xAxisRot < -15){
-         s.moveRight(xAxisRot/2);
+         s.moveLeft(xAxisRot/2);
        }
        
        if (leftFireRate > 1) {
