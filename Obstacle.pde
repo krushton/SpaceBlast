@@ -3,12 +3,14 @@ public class Obstacle
   private float obx,oby;
   private float explosionX = -1000.0, explosionY = -1000.0;
   private int explosionStart = 0;
+  private int start;
 
   PImage obstacle, explosion;
   String[] images = {"a1.png", "a2.png", "a3.png", "a4.png", "a5.png"};
 
-  public Obstacle() {
+  public Obstacle(int startTime) {
     positionObstacle();
+    start = startTime;
     int index = int(random(5));
     obstacle = loadImage(images[index]);
     explosion = loadImage("explosion.png");
@@ -36,22 +38,23 @@ public class Obstacle
   }   
   
   void draw()
-  {
-      oby += 4;
-      image(obstacle,obx,oby);
-      
-      if(oby > 500)
-      {
-        positionObstacle();
-        changeObstacle();
-      }
-      
-      if ( millis() < (100 + explosionStart)) {
-         drawExplosion();
-      } else {
-         hideExplosion(); 
-      }
-
+  {  //display asteroids after a 4 second delay to allow the accelerometer to catch up
+      if (millis() - start > 4000) {
+        oby += 4;
+        image(obstacle,obx,oby);
+        
+        if(oby > 500)
+        {
+          positionObstacle();
+          changeObstacle();
+        }
+        
+        if ( millis() < (100 + explosionStart)) {
+           drawExplosion();
+        } else {
+           hideExplosion(); 
+        }
+    }
  }
  
  private void drawExplosion() {

@@ -33,15 +33,17 @@ class SpaceShip {
 
   }
   
-  void moveLeft(int distance) {
-    xPos = xPos - distance >= 0 ? xPos - distance : 0;
+  void move(int distance) {
+    //move right
+    if (distance < 0) {
+      xPos = xPos + distance >= 0 ? xPos + distance : 0;
+    } 
+    else {  //move left
+      xPos = xPos + distance < 430 ? xPos + distance : 430;
+    }
+    
+    println("xpos: " + xPos);
     update();
-  }
-  
-  void moveRight(int distance) {
-     int dist = xPos + distance;
-     xPos = xPos + distance < 430 ? xPos + distance : 430;
-     update();
   }
   
   void addBullet(Bullet b) {

@@ -8,6 +8,7 @@ int backX=0,backY=0,backX2=0,backY2=500;
 int PAGE_WIDTH = 500, PAGE_HEIGHT = 500;
 boolean scrollBackground = true;
 boolean useSerial = false;
+int timeStarted = 0;
 SpaceShip s;
 Obstacle[] o;
 Game game;
@@ -32,7 +33,7 @@ void setup()
   o = new Obstacle[6];
   for(int i=0; i<6; i++)
   {
-    o[i] = new Obstacle();
+    o[i] = new Obstacle(millis());
   }
   game = new Game(o, s.getBullets(), s);
 }
@@ -73,16 +74,16 @@ void stopBackground() {
 
 void keyPressed() {
   
-   
    if (!game.isRunning()) {
      game.startGame();
+     int timeStarted = millis();
    }
    
    if (key == CODED) {
     if (keyCode == LEFT) {
-      s.moveLeft(10);
+      s.move(-10);
     } else if (keyCode == RIGHT) {
-      s.moveRight(10);
+      s.move(10);
     } 
    } else {
      if (key == 'a') {
@@ -108,9 +109,9 @@ void serialEvent(Serial p) {
     // and convert the sections into integers:
     int sensors[] = int(split(myString, ','));
     // print out the values you got:
-    //for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
+    for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
       //print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t"); 
-    //}
+    }
     // add a linefeed after all the sensor values are printed:
     //println();
   
@@ -121,15 +122,11 @@ void serialEvent(Serial p) {
    int xAxisRot = sensors[0];
    
    if (sensors.length > 1) {
-        if (!game.isRunning()) {
-          game.startGame();
-        }
-     
        if(xAxisRot > 15){
-         s.moveLeft(xAxisRot/2);
+         s.move(xAxisRot/2);
        } 
        else if(xAxisRot < -15){
-         s.moveLeft(xAxisRot/2);
+         s.move(xAxisRot/2);
        }
        
        if (leftFireRate > 1) {
